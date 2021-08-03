@@ -26,8 +26,10 @@ public class ChatController {
         boolean isExists = UserStorage.getInstance().getUsers().contains(username);
         if (!isExists) {
             UserStorage.setUser(username);
-            System.out.println(UserStorage.getInstance().getUsers());
             headerAccessor.getSessionAttributes().put("username", username);
+        }
+        else {
+            throw new Exception("User already exists with username: " + username);
         }
         return message;
     }

@@ -24,9 +24,6 @@ public class UserStorage {
     }
 
     public static void setUser(String userName) throws Exception {
-        if (users.contains(userName)) {
-            throw new Exception("User aready exists with userName: " + userName);
-        }
         users.add(userName);
     }
 }
