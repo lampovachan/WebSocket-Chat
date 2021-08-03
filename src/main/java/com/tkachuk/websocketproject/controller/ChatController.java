@@ -1,6 +1,7 @@
 package com.tkachuk.websocketproject.controller;
 
 import com.tkachuk.websocketproject.model.MessageModel;
+import com.tkachuk.websocketproject.model.UserStorage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -20,8 +21,14 @@ public class ChatController {
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
     public MessageModel addUser(@Payload MessageModel message,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", message.getSender());
+                                SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        String username = message.getSender();
+        boolean isExists = UserStorage.getInstance().getUsers().contains(username);
+        if (!isExists) {
+            UserStorage.setUser(username);
+            System.out.println(UserStorage.getInstance().getUsers());
+            headerAccessor.getSessionAttributes().put("username", username);
+        }
         return message;
     }
 }

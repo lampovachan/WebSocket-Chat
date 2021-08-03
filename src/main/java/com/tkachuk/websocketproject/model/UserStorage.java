@@ -6,7 +6,7 @@ import java.util.Set;
 public class UserStorage {
 
     private static UserStorage instance;
-    private Set<String> users;
+    private static Set<String> users;
 
     private UserStorage() {
         users = new HashSet<>();
@@ -23,7 +23,7 @@ public class UserStorage {
         return users;
     }
 
-    public void setUser(String userName) throws Exception {
+    public static void setUser(String userName) throws Exception {
         if (users.contains(userName)) {
             throw new Exception("User aready exists with userName: " + userName);
         }
