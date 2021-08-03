@@ -1,7 +1,7 @@
 package com.tkachuk.websocketproject.service;
 
 import com.tkachuk.websocketproject.model.MessageModel;
-import com.tkachuk.websocketproject.model.UserStorage;
+import com.tkachuk.websocketproject.storage.UserStorage;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Service;
 

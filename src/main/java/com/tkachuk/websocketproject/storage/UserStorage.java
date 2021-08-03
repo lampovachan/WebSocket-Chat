@@ -1,4 +1,4 @@
-package com.tkachuk.websocketproject.model;
+package com.tkachuk.websocketproject.storage;
 
 import java.util.HashSet;
 import java.util.Set;
