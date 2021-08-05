@@ -1,9 +1,0 @@
-server:
-    port:
-        8181
-facebook:
-    api:
-        key:
-            688884362067336
-        secret:
-            69b3613feacaa3fe2fd7315a27b5aabf
