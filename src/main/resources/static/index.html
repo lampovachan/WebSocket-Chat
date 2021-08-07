@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Spring Boot WebSocket Chat Application</title>
@@ -18,8 +17,10 @@
                 <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
             </div>
             <div class="w3-half w3-padding-16">
-                <a id="link-facebook" target="_blank">Connect to Facebook</a>
-                <div id="oauth-facebook"></div>
+                <div class="fb-login-button" data-width="38" data-size="medium" data-button-type="login_with"
+                     data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"
+                     scope="public_profile,email" onlogin="checkLoginState();">Login with Facebook
+                </div>
             </div>
             <div class="form-group">
                 <button type="submit" class="accent username-submit">Start Chatting</button>
@@ -50,31 +51,9 @@
     </div>
 </div>
 
+<script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="/js/main.js"></script>
-
-<script>
-    var randomFacebookState = Math.random().toString(36).substring(2);
-    var randomGoogleState = Math.random().toString(36).substring(2);
-    document.getElementById('link-facebook').href = `oauth/facebook/signin?state=${randomFacebookState}`;
-    document.getElementById('link-google').href = `oauth/google/signin?state=${randomGoogleState}`;
-
-    var socket = new SockJS('oauth/websocket');
-    var stompClient = Stomp.over(socket);
-    stompClient.connect({}, function () {
-        stompClient.subscribe(`/oauth/response/${randomFacebookState}`, function (response) {
-            var content = `HI ${JSON.parse(response.body).fullName}<br>`;
-            content += `<img src="${JSON.parse(response.body).image}" class="w3-circle"/>`;
-            document.getElementById('oauth-facebook').innerHTML = content;
-        });
-
-        stompClient.subscribe(`/oauth/response/${randomGoogleState}`, function (response) {
-            var content = `HI ${JSON.parse(response.body).fullName}<br>`;
-            content += `<img src="${JSON.parse(response.body).image}" class="w3-circle"/>`;
-            document.getElementById('oauth-google').innerHTML = content;
-        });
-    });
-</script>
 </body>
 </html>

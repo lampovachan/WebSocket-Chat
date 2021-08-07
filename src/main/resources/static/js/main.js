@@ -16,10 +16,47 @@ var colors = [
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+
+function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+        testAPI();
+    }
+}
+
+
+function checkLoginState() {
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+    });
+}
+
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: 688436255436617,
+        cookie: true,
+        xfbml: true,
+        version: 'v11.0'
+    });
+
+
+    FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+    });
+};
+
+function testAPI() {
+    FB.api('/me', function (response) {
+        document.querySelector('#name').value = response.name
+        connect();
+    });
+}
+
+
 function connect(event) {
     username = document.querySelector('#name').value.trim();
 
-    if(username) {
+    if (username) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
@@ -53,7 +90,7 @@ function onError(error) {
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
 
-    if(messageContent && stompClient) {
+    if (messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
@@ -72,7 +109,7 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('li');
 
-    if(message.type === 'JOIN') {
+    if (message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
